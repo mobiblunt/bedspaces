@@ -5,21 +5,29 @@ import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import SelectInput from "@/Components/SelectInput.jsx";
+import Checkbox from '@/Components/Checkbox';
 
 export default function AddListingForm({className = ''}) {
 
+   
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
         title: "",
         location: "",
-        type: "",
+        type: "room",
         available: false,
         price: 0,
+        images: []
     });
+
+    const handleImageInput = (event) => {
+        const newImages = event.target.files;
+        setData('images', [...data.images, ...newImages]);
+      };
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('pizzas.update', pizza.id));
+        post(route('list.add-post', data));
     };
 
     const typeOptions = [
@@ -90,12 +98,23 @@ export default function AddListingForm({className = ''}) {
 
                 <div>
                 <InputLabel htmlFor="available" value="Available?" />
-                <input type="checkbox" checked={data.available} onChange={e => setData('available', e.target.checked)} />
+                <Checkbox checked={data.available} onChange={e => setData('available', e.target.checked)} />
+                
                 <InputError className="mt-2" message={errors.status} />
                 </div>
 
 
+                <div>
+                <InputLabel htmlFor="images" value="Images" />
+                <input id="images" multiple type="file"  onChange={handleImageInput} />
 
+                <div>
+                    {data.images.map((image) => (
+                    <img src={image.preview} key={image.name} />
+                        ))}
+                </div>
+
+                </div>
 
                 
 

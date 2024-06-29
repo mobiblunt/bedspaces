@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/host/listing/{id}', [ListingController::class, 'detail'])->name('list.detail');
     Route::get('/host/add-listing', [ListingController::class, 'add'])->name('list.add');
     
-    //Route::post('/host/listing/add', [ListingController::class, 'addPost'])->name('list.add-post');
+    Route::post('/host/add-listing/', [ListingController::class, 'addPost'])->name('list.add-post');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

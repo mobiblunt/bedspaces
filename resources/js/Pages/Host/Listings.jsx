@@ -6,6 +6,7 @@ import SecondaryButton from '@/Components/SecondaryButton';
 
 
 const Listings = ({auth, listings}) => {
+    
   return (
     <AuthenticatedLayout
             user={auth.user}
