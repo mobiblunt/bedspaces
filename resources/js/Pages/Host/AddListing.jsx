@@ -16,7 +16,7 @@ const AddListing = ({auth}) => {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <AddListingForm className="max-w-xl" />
 
-                       {/* <UpdatePizzaOrderForm pizza={pizza} className="max-w-xl"></UpdatePizzaOrderForm> */}
+                       
                     </div>
                 </div>
             </div>

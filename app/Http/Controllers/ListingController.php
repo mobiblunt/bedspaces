@@ -24,7 +24,17 @@ class ListingController extends Controller
         
         $listing = Listing::where('id', $id)->with("listingPhotos")->firstOrFail();
 
-       // dd($listing);
+        if ($listing) {
+            $listing->listing_photos = $listing->listingPhotos ? $listing->listingPhotos->map(function ($photo) {
+                return [
+                    'id' => $photo->id,
+                    'image_url' => Storage::url($photo->image_url),
+                    // Include any other relevant photo data
+                ];
+            }) : collect();
+            
+            unset($listing->listingPhotos);
+        }
         
         return Inertia::render('Host/ListingsDetail', [
             'listing' => $listing
@@ -74,6 +84,18 @@ class ListingController extends Controller
 
     $newListing = Listing::where('id', $listing->id)->with("listingPhotos")->firstOrFail();
 
+    if ($newListing) {
+        $newListing->listing_photos = $newListing->listingPhotos ? $newListing->listingPhotos->map(function ($photo) {
+            return [
+                'id' => $photo->id,
+                'image_url' => Storage::url($photo->image_url),
+                // Include any other relevant photo data
+            ];
+        }) : collect();
+        
+        unset($newListing->listingPhotos);
+    }
+
      //  dd($listing);
         
         return Inertia::render('Host/ListingsDetail', [
@@ -82,4 +104,18 @@ class ListingController extends Controller
 
 
     }
+
+    public function deletePic(ListingPhoto $photo)
+{
+    // Check if the user has permission to delete this photo
+   // $this->authorize('delete', $photo);
+
+    // Delete the file from storage
+    Storage::delete($photo->image_url);
+
+    // Delete the database record
+    $photo->delete();
+
+    return response()->json(['message' => 'Photo deleted successfully']);
+}
 }
