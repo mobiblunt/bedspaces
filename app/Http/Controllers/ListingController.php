@@ -105,6 +105,16 @@ class ListingController extends Controller
 
     }
 
+    public function edit($id) {
+        $listing = Listing::where('id', $id)->with("listingPhotos")->firstOrFail();
+        
+
+        return Inertia::render('Host/Edit', [
+            'listing' => $listing
+        ]);
+
+    }
+
     public function deletePic(ListingPhoto $photo)
 {
     // Check if the user has permission to delete this photo
@@ -118,4 +128,15 @@ class ListingController extends Controller
 
     return response()->json(['message' => 'Photo deleted successfully']);
 }
+
+public function deleteListing(Listing $listing)
+    {
+        
+
+        $listing->delete();
+
+        return redirect()->route('listing.index')->with('success', 'listing deleted successfully.');
+    }
+
+
 }

@@ -1,11 +1,14 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Link, Head } from '@inertiajs/react';
 import { router } from '@inertiajs/react'
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
+import { FaLocationDot } from "react-icons/fa6";
+
+
 
 
 const ListingsDetail = ({auth, listing: initialListing}) => {
@@ -26,6 +29,20 @@ const ListingsDetail = ({auth, listing: initialListing}) => {
               onError: () => {
                 toast.error('Failed to delete image. Please try again.');
               },
+          });
+        }
+      };
+
+      const handleDelete = (postId) => {
+        if (confirm('Are you sure you want to delete this post?')) {
+          router.delete(route('listing.destroy', postId), {
+            preserveScroll: true,
+            onSuccess: () => {
+              toast.success('Listing deleted successfully!');
+            },
+            onError: () => {
+              toast.error('Failed to delete listing. Please try again.');
+            },
           });
         }
       };
@@ -52,11 +69,11 @@ const ListingsDetail = ({auth, listing: initialListing}) => {
     )} 
   <div className="px-6 py-4">
     <h5 className="text-lg font-bold">{listing.title}</h5>
-    <h5 className="text-lg font-bold">${listing.price}</h5>
-    <p className="text-gray-700">{listing.location}</p>
+    <h5 className="  text-lg font-bold">${listing.price}</h5>
+    <p className="flex text-gray-700"><FaLocationDot className='mr-1' /> {listing.location}</p>
     <div className='flex justify-end'>
-        <PrimaryButton className='m-4'>Edit</PrimaryButton>
-        <DangerButton className='m-4' onClick={() => handleDeletePhoto(photo.id)}>Delete</DangerButton>
+        <Link href={`/host/edit-listing/${listing.id}`}><PrimaryButton className='m-4'>Edit</PrimaryButton></Link>
+        <DangerButton className='m-4' onClick={() => handleDelete(listing.id)}>Delete</DangerButton>
     
     </div>
     
