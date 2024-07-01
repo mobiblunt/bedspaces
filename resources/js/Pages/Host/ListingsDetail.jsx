@@ -7,12 +7,16 @@ import { useState } from 'react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DangerButton from '@/Components/DangerButton';
 import { FaLocationDot } from "react-icons/fa6";
-
+import SecondaryButton from '@/Components/SecondaryButton';
 
 
 
 const ListingsDetail = ({auth, listing: initialListing}) => {
     const [listing, setListing] = useState(initialListing);
+
+    const handleGoBack = () => {
+        window.history.back()
+      }
 
     const handleDeletePhoto = (photoId) => {
         if (confirm('Are you sure you want to delete this photo?')) {
@@ -20,7 +24,7 @@ const ListingsDetail = ({auth, listing: initialListing}) => {
             preserveState: true,
             preserveScroll: true,
             onSuccess: (page) => {
-                toast.success(page.props.flash.message || 'Image deleted successfully!');
+                toast.success('Image deleted successfully!');
                 setListing(prevListing => ({
                     ...prevListing,
                     listing_photos: prevListing.listing_photos.filter(photo => photo.id !== photoId)
@@ -57,6 +61,7 @@ const ListingsDetail = ({auth, listing: initialListing}) => {
 
     <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <SecondaryButton onClick={handleGoBack}  className='mb-4'>Go back</SecondaryButton>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div className="p-6 text-gray-900">
                 <div className="max-w-sm bg-white rounded-lg shadow-lg">
@@ -80,7 +85,9 @@ const ListingsDetail = ({auth, listing: initialListing}) => {
   </div>
   
 </div><br /> <br />
+
 <h1 className="text-lg font-bold">Listing Photos</h1><br/>
+<Link href={`/host/add-image/${listing.id}`}><PrimaryButton>AddImage</PrimaryButton></Link><br/><br />
 {listing.listing_photos && listing.listing_photos.length > 0 ? (
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {listing.listing_photos.map((photo) => (

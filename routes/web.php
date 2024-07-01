@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/host/listing/{id}', [ListingController::class, 'detail'])->name('list.detail');
     Route::get('/host/add-listing', [ListingController::class, 'add'])->name('list.add');
     Route::get('/host/edit-listing/{id}', [ListingController::class, 'edit'])->name('list.edit');
+    Route::get('/host/add-image/{id}', [ListingController::class, 'addImage'])->name('list.addImage');
+    Route::post('/host/add-image/', [ListingController::class, 'saveImage'])->name('list.save-image');
+    Route::patch('/host/edit-listing/{id}', [ListingController::class, 'update'])->name('list.update');
     Route::delete('/host/delete-listing-photo/{photo}', [ListingController::class, 'deletePic'])->name('listing-photo.destroy');
     Route::delete('/host/delete-listing/{listing}', [ListingController::class, 'deleteListing'])->name('listing.destroy');
     

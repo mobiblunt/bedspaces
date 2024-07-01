@@ -10,24 +10,21 @@ import Checkbox from '@/Components/Checkbox';
 export default function UpdateListingForm({className = '',listing}) {
 
    
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+        id: listing.id,
         title: listing.title,
         location: listing.location,
         type: listing.type,
         available: listing.available,
         price: listing.price,
-        images: []
     });
 
-    const handleImageInput = (event) => {
-        const newImages = event.target.files;
-        setData('images', [...data.images, ...newImages]);
-      };
+    
 
     const submit = (e) => {
         e.preventDefault();
-
-        post(route('list.add-post', data));
+      //  console.log('Sending data:', data);
+        patch(route('list.update', listing.id));
     };
 
     const typeOptions = [
@@ -53,6 +50,7 @@ export default function UpdateListingForm({className = '',listing}) {
 
                     <TextInput
                         id="title"
+                        name='title'
                         className="mt-1 block w-full"
                         value={data.title}
                         onChange={e => setData('title', e.target.value)}
@@ -104,17 +102,7 @@ export default function UpdateListingForm({className = '',listing}) {
                 </div>
 
 
-                <div>
-                <InputLabel htmlFor="images" value="Images" />
-                <input id="images" multiple type="file"  onChange={handleImageInput} />
-
-                <div>
-                    {data.images.map((image) => (
-                    <img src={image.preview} key={image.name} />
-                        ))}
-                </div>
-
-                </div>
+               
 
                 
 
