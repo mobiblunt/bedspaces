@@ -6,8 +6,8 @@ const linkClass = ({isActive}) => isActive ? 'bg-black text-white hover:bg-gray-
 
   return (
     <>
-  	<Head title="Welcome" />
-    <nav className="bg-indigo-700 border-b border-indigo-500">
+  	
+    <nav className="bg-violet-700 border-b border-violet-500 sticky scroll top-0 z-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <div
