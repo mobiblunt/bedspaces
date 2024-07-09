@@ -18,14 +18,19 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [FrontController::class, 'index'])->name('front.index');
+Route::get('/', [FrontController::class, 'index'])->name('index');
+
 Route::get('/listing/{id}', [FrontController::class, 'view'])->name('list.view');
+
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::post('/listing/book/', [FrontController::class, 'addBooking'])->name('list.book');
     Route::get('/host/listings', [ListingController::class, 'index'])->name('listing.index');
     Route::get('/host/listing/{id}', [ListingController::class, 'detail'])->name('list.detail');
     Route::get('/host/add-listing', [ListingController::class, 'add'])->name('list.add');

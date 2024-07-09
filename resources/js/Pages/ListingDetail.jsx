@@ -1,15 +1,37 @@
 import React from 'react'
 import Listing from '@/Components/Listing'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import SecondaryButton from '@/Components/SecondaryButton'
 import PrimaryButton from '@/Components/PrimaryButton'
 import { FaLocationDot } from "react-icons/fa6"
-import Guest from '@/Layouts/GuestLayout'
+import Guest from '@/Layouts/FrontLayout'
+import Modal from '@/Components/Modal'
+import { useState } from 'react'
+import BookingForm from './Profile/Partials/BookingForm'
+
 
 const ListingDetail = ({auth, listing}) => {
+    const [showModal, setShowModal] = useState(false)
+
+    console.log(listing.id)
+
+    const handleButtonClick = () => {
+        if (auth.user) {
+            setShowModal(true);
+            console.log(listing.id)
+        } else {
+            router.visit('/login');
+        }
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     const handleGoBack = () => {
         window.history.back()
       }
+      
   return (
     <Guest title="Bedspace" auth={auth}>
     <div className="py-12">
@@ -28,7 +50,13 @@ const ListingDetail = ({auth, listing}) => {
     <h5 className="  text-lg font-bold">${listing.price}</h5>
     <p className="flex text-gray-700"><FaLocationDot className='mr-1' /> {listing.location}</p>
     <div className='flex justify-end'>
-        <Link href={`/host/edit-listing/${listing.id}`}><PrimaryButton className='m-4'>Book Now</PrimaryButton></Link>
+        <PrimaryButton onClick={handleButtonClick} className='m-4'>Book Now</PrimaryButton>
+
+       
+                <Modal show={showModal} onClose={handleCloseModal}>
+                    <BookingForm listing={listing} />
+                </Modal>
+            
         
     
     </div>
