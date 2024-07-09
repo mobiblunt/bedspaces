@@ -19,7 +19,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
-Route::get('/listing/{id}', [FrontController::class, 'list'])->name('list.view');
+Route::get('/listing/{id}', [FrontController::class, 'view'])->name('list.view');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

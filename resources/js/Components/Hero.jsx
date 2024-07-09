@@ -8,13 +8,11 @@ const Hero = ({title, subtitle}) => {
       >
         <div className="text-center">
           <h1
-            className="text-4xl text-pink-800 font-extrabold  sm:text-5xl md:text-6xl"
+            className="text-4xl text-pink-800 font-extrabold mb-4  sm:text-5xl md:text-6xl"
           >
             {title}
           </h1>
-          <p className="my-4 text-xl text-pink-800">
-            {subtitle}
-          </p>
+         
           <div class="hero-body">
 			<form className="container max-w-md mx-auto p-4 pt-6 pb-8 bg-white shadow-md rounded-lg">
       <div className="field">

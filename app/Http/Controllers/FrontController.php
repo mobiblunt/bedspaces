@@ -38,7 +38,23 @@ class FrontController extends Controller
     }
 
 
-    public function view () {
+    public function view ($id) {
+        $listing = Listing::where('id', $id)->with("listingPhotos")->firstOrFail();
+
+        if ($listing) {
+            $listing->listing_photos = $listing->listingPhotos ? $listing->listingPhotos->map(function ($photo) {
+                return [
+                    'id' => $photo->id,
+                    'image_url' => Storage::url($photo->image_url),
+                    // Include any other relevant photo data
+                ];
+            }) : collect();
+            
+            unset($listing->listingPhotos);
+        }
         
+        return Inertia::render('ListingDetail', [
+            'listing' => $listing
+        ]);
     }
 }

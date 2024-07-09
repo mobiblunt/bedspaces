@@ -4,12 +4,12 @@ import { Link } from '@inertiajs/react'
 const Listings = ({listings}) => {
   return (
     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 pb-6">
-          <h2 className='text-center font-bold text-violet-800 underline uppercase text-lg'> Explore Listings</h2>            
+          <h2 className='text-center font-bold text-violet-800 my-4 underline uppercase text-3xl'> Explore Listings</h2>            
         <div className="p-6 text-gray-900">
             <div className="grid grid-cols-3 gap-4">
             {listings.map((list) => {
                             return (
-            <Link href="">
+            <Link href={`/listing/${list.id}`}>
                 <div key={list.id} class="max-w-sm bg-white rounded-lg shadow-lg">
                                     
                 {list.listing_photos && list.listing_photos.length > 0 && (
