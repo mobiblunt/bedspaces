@@ -25,7 +25,7 @@ const linkClass = ({isActive}) => isActive ? 'bg-black text-white hover:bg-gray-
             
               <div className="flex space-x-2">
               <NavLink
-                  href=""
+                  href={route('about')}
                   className={linkClass}
                   >About</NavLink
                 >

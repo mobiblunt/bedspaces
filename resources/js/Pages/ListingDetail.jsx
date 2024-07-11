@@ -13,12 +13,12 @@ import BookingForm from './Profile/Partials/BookingForm'
 const ListingDetail = ({auth, listing}) => {
     const [showModal, setShowModal] = useState(false)
 
-    console.log(listing.id)
+   
 
     const handleButtonClick = () => {
         if (auth.user) {
             setShowModal(true);
-            console.log(listing.id)
+            
         } else {
             router.visit('/login');
         }

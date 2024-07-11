@@ -50,7 +50,7 @@ const BookingForm = ({listing}) => {
 					<input className="input bg-violet-400 w-1/6 mt-4 border border-gray-600 rounded-lg py-2 px-4  md:mx-2" type="number" id="guest_number" value={data.guest_number}
                         onChange={e => setData('guest_number', e.target.value)} />
 				</div>
-				<button disabled={processing} className="bg-violet-600 font-bold mt-4 rounded-lg py-2 px-4 md:mx-2">Book</button>
+				<button disabled={processing} className="bg-violet-600 font-bold mt-4 rounded-lg py-2 px-4 md:mx-2">Request To Book</button>
 
 				<Transition
                         show={recentlySuccessful}

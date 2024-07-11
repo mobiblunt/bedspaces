@@ -39,6 +39,14 @@ class FrontController extends Controller
     }
 
 
+    public function about() {
+
+        return Inertia::render('About', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register')
+        ]);
+    }
+
     public function view ($id) {
         $listing = Listing::where('id', $id)->with("listingPhotos")->firstOrFail();
 
@@ -68,6 +76,9 @@ class FrontController extends Controller
             'end_date' => 'required',
             'guest_number' => 'required',
         ]);
+
+        $days = $this->daysBetweenDates($request->start_date, $request->end_date );
+         
         
         $booking = Booking::create([
             'listing_id' => $request->listing_id,
@@ -79,14 +90,39 @@ class FrontController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        $listing = Listing::where('id', $booking->listing_id)->with("user")->firstOrFail();
+        $listing = Listing::where('id', $booking->listing_id)->with(["user", "listingPhotos" ])->firstOrFail();
+
+        if ($listing) {
+            $listing->listing_photos = $listing->listingPhotos ? $listing->listingPhotos->map(function ($photo) {
+                return [
+                    'id' => $photo->id,
+                    'image_url' => Storage::url($photo->image_url),
+                    // Include any other relevant photo data
+                ];
+            }) : collect();
+            
+            unset($listing->listingPhotos);
+        }
+
+        $amount = $days * $listing->price;
 
 
         return Inertia::render('Booking/ConfirmAndPay', [
             'booking' => $booking,
-            'listing' => $listing
+            'listing' => $listing,
+            'amount' => $amount,
+            'days' => $days
         ]);
    
 
     }
+
+
+    public function daysBetweenDates($startDate, $endDate) {
+        $start = strtotime($startDate);
+        $end = strtotime($endDate);
+        $difference = $end - $start;
+        $days = ceil($difference / (60 * 60 * 24));
+        return $days;
+      }
 }
